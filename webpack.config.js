@@ -3,14 +3,14 @@ const glob = require('glob')
 const cleanWebpackPlugin = require('clean-webpack-plugin')
 
 
-const config = {
+module.exports = {
 	entry: toObject(glob.sync(`./src/js/**/*.js*`),'./src'),  
 	output: {
 		path: path.resolve(__dirname,'www'),
 		filename: '[name].js'
 	},
 	plugins: [
-		new cleanWebpackPlugin(['www'])
+		//new cleanWebpackPlugin(['www'])
 	],
 	module: {
 		rules: [{
@@ -20,12 +20,9 @@ const config = {
 			use: {
 				loader: "babel-loader",
 				options: {
-					presets: ['env']
-				}
-				
+		          presets: ['env']
+		        }
 			}
-
-
 		}]
 	}
 }
@@ -44,5 +41,3 @@ function toObject(paths,exclude) {
   return ret;
 
 }
-
-module.exports = config

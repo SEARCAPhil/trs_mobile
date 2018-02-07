@@ -1,4 +1,4 @@
-export default class{
+export class Loader{
 
 	constructor(){}
 
@@ -20,8 +20,6 @@ export default class{
 				if(opt.module) sc.setAttribute('type','module')
 				sc.setAttribute('lazy-loaded','')
 				document.body.appendChild(sc)
-				//add to list
-				window.bms.default.loadedScript.push(file)
 				resolve(sc)
 								
 			}
