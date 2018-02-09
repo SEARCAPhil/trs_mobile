@@ -3,7 +3,7 @@ export default class Network{
 		this.protocol = 'http'
 		this.host = 'localhost'
 		this.port = null
-		this.basename = 'trs_mobile/www'
+		this.basename = 'trs_api/public/api'
 	}
 
 	endpoint(){

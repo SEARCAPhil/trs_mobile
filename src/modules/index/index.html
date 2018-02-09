@@ -1,0 +1,59 @@
+<style type="text/css">
+    .hamburger{
+        float: left;
+    }
+    .hamburger .burger{
+       
+        display: inherit;
+        width: 18px;
+        height: 2px;
+        background: rgb(255,184,12);
+        margin: 2px 98% 1px 15px;
+    }
+</style>
+<header>
+    <nav class="navbar navbar-dark navbar-top fixed-top">
+        <ul class="nav nav-top-menu">
+            <li class="nav-item" id="about-tab">
+                <span class="navbar-brand hamburger">
+                    <span class="burger"></span> 
+                    <span class="burger"></span> 
+                    <span class="burger"></span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<aside class="col col-lg-2 col-md-3 col-xs-12 docker docker-sm-fixed docker-md-fixed docker-sm-hidden docker-xs-hidden docker-md-hidden d-md-none d-lg-block docker-lg-visible docker-lg-fixed docker-lg-block row" id="docker-sidebar" data-role="none" data-enhance="false" style="background:rgba(0,0,0,.7);min-width:100px">    <div class="content container-fluid" style="height:1080px;background:0 0">
+        <menu class="col col-md-12">
+            <ul class="list-unstyled main-menu main-menu-list">
+                <li data-status="home" class="main-menu-list-item active" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
+                    <i class="material-icons md-24" style="width:24px">home</i><br>Home
+                </li>
+
+                <li data-status="home" class="main-menu-list-item" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
+                    <i class="material-icons md-24" style="width:24px">directions_car</i><br>Automobile
+                </li>
+
+                 <li data-status="home" class="main-menu-list-item" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
+                    <i class="material-icons md-24" style="width:24px">local_gas_station</i><br>Gasoline
+                </li>
+                
+            </ul>
+
+            <ul class="list-unstyled main-menu main-menu-list">
+                <li id="new" class="deactivated">New <i class="material-icons">add</i></li>
+            </ul>
+        </menu>
+        <menu class="col col-md-12">
+            <ul class="list-unstyled main-menu">
+                <li data-role="none"><a href="pages/authentication/o365.html" style="color:#ffb80c" data-ajax="false" onclick="signout();" class="ui-link">Sign-out <i class="material-icons" style="width:24px">keyboard_backspace</i></a></li>
+            </ul>
+        </menu>
+    </div>
+</aside>
+<main id="main-section">
+   <article class="/home"></article> 
+   <article class="/automobile"></article> 
+</main>

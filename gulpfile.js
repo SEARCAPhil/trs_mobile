@@ -47,7 +47,11 @@ gulp.task('copying node_module dependency',()=>{
 	return gulp.src(['./node_modules/bootstrap/**/*.*'])
     .pipe(gulp.dest('./www/node_modules/bootstrap'))
 })
+	gulp.task('copying fonts',()=>{
+		return gulp.src(['./src/fonts/**/*'])
+	    .pipe(gulp.dest('./www/fonts'))
+	})
 
 gulp.task('default',()=>{
-	runSequence('copying html','copying css','copying node_module dependency','copying images');
+	runSequence('copying html', 'copying css', 'copying node_module dependency', 'copying images', 'copying fonts');
 })

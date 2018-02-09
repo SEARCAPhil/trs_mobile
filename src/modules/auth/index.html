@@ -10,33 +10,35 @@
 </style>
 <main class="auth-main container">
     <section class="col-lg-4 col-xl-6 offset-xl-3 offset-lg-4 col-md-6 offset-lg-3 container">
-        <center>
-           <!-- <p><img src="img/searca-new.png" width="100%" style="max-width: 300px;"></p>-->
-            <h2 class="auth-brand d-block d-xl-none">Travel Services Management System</h2>
-            <h4 class="auth-brand d-none d-xl-block">Travel Services Management System</h4>
-            <small><p class="text-muted">Smart monitoring of your automobile</p></small>
-            <p><img src="img/chain.png" width="100%" style="max-width: 170px;"></p>
-            <p>
-                <input type="text" placeholder="Username" class="text-center form-control" autofocus>
-            </p>
-            <p>
-                <input type="password" placeholder="Password" class="text-center form-control">
-            </p>
-            
-            <small>
-                   <p>Forgot password? <a href="#" class="text-danger">reset</a></p><br/>
-                <p>By signing to TRS you agree to <a href="#">Users License agreement</a> and <br/><a href="#">Data policy</a> settings of SEARCA</p>
+        <form name="auth-form">
+            <center>
+               <!-- <p><img src="img/searca-new.png" width="100%" style="max-width: 300px;"></p>-->
+                <h2 class="auth-brand d-block d-xl-none">Travel Services Management System</h2>
+                <h4 class="auth-brand d-none d-xl-block">Travel Services Management System</h4>
+                <small><p class="text-muted">Smart monitoring of your automobile</p></small>
+                <p><img src="img/chain.png" width="100%" style="max-width: 170px;"></p>
                 <p>
-                    <button class="btn btn-dark btn-block">Sign-In</button>
-                    <br/><br><br/>
-                    <p>
-                        <small class="text-muted">
-                            &copy;<a href="www.searca.org">www.searca.org</a> 
-                            v0.1.0 
-                        </small>
-                    </p>
+                    <input type="text" placeholder="Username" id="username" class="text-center form-control" autofocus>
                 </p>
-            </small>
-        </center>
+                <p>
+                    <input type="password" placeholder="Password" id="password" class="text-center form-control">
+                </p>
+                <p class="login-status"></p>
+                <small>
+                       <p>Forgot password? <a href="#" class="text-danger">reset</a></p><br/>
+                    <p>By signing to TRS you agree to <a href="#">Users License agreement</a> and <br/><a href="#">Data policy</a> settings of SEARCA</p>
+                    <p>
+                        <button class="btn btn-dark btn-block">Sign-In</button>
+                        <br/><br><br/>
+                        <p>
+                            <small class="text-muted">
+                                &copy;<a href="www.searca.org">www.searca.org</a> 
+                                v0.1.0 
+                            </small>
+                        </p>
+                    </p>
+                </small>
+            </center>
+        </form>
     </section>
 </main>

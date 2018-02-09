@@ -43,7 +43,7 @@ summary{
     font-size: 12px;
 }
 .main-menu li.active{
-    background: #009688;
+  background: rgb(255,184,12);
 }
 
 .main-menu li.deactivated{
@@ -52,6 +52,7 @@ summary{
 .main-menu-list{
     color: rgb(240,240,240);
 }
+
 
 .btn-group-xs > .btn, .btn-xs {
     padding  : .25rem .4rem;
