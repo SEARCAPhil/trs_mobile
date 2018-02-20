@@ -8,7 +8,7 @@ h1,h2,h3,h4,h5,h6{
 a,a:focus,a:hover{
   color: #009688;
 }
-input:not([data-role="none"]),textarea:not([data-role="none"]){
+input:not([data-role="none"]),textarea:not([data-role="none"]),select:not([data-role="none"]){
   border:none !important;
   border-bottom:2px solid rgba(180,180,180,0.4) !important;
   transition: border 0.2s ease-in-out;
@@ -16,10 +16,14 @@ input:not([data-role="none"]),textarea:not([data-role="none"]){
   background: none !important;
 }
 
-input:focus:not([data-role="none"]),textarea:focus:not([data-role="none"]){
+input:focus:not([data-role="none"]),textarea:focus:not([data-role="none"]),select:focus:not([data-role="none"]){
   outline: none !important;
   box-shadow: none !important;
   border-bottom: 2px solid #009688 !important;
+}
+
+input.error, input.error:focus, select.error, select.error:focus{
+   border-bottom:2px solid orangered !important;
 }
 
 summary{

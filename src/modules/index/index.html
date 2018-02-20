@@ -25,35 +25,52 @@
     </nav>
 </header>
 
-<aside class="col col-lg-2 col-md-3 col-xs-12 docker docker-sm-fixed docker-md-fixed docker-sm-hidden docker-xs-hidden docker-md-hidden d-md-none d-lg-block docker-lg-visible docker-lg-fixed docker-lg-block row" id="docker-sidebar" data-role="none" data-enhance="false" style="background:rgba(0,0,0,.7);min-width:100px">    <div class="content container-fluid" style="height:1080px;background:0 0">
-        <menu class="col col-md-12">
-            <ul class="list-unstyled main-menu main-menu-list">
-                <li data-status="home" class="main-menu-list-item active" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
-                    <i class="material-icons md-24" style="width:24px">home</i><br>Home
-                </li>
+<article class="d-flex align-items-stretch">
+    
 
-                <li data-status="home" class="main-menu-list-item" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
-                    <i class="material-icons md-24" style="width:24px">directions_car</i><br>Automobile
-                </li>
+    <aside class="col-lg-2 col-md-3 col-xs-12 d-none d-lg-block" id="docker-sidebar" data-role="none" data-enhance="false" style="background:rgba(0,0,0,.7);min-width:100px">    <div class="content container-fluid" style="height:1080px;background:0 0">
+            <menu class="col col-md-12">
+                <ul class="list-unstyled main-menu main-menu-list">
+                    <li data-status="home" class="main-menu-list-item active" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
+                        <i class="material-icons md-24" style="width:24px">home</i><br>Home
+                    </li>
 
-                 <li data-status="home" class="main-menu-list-item" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
-                    <i class="material-icons md-24" style="width:24px">local_gas_station</i><br>Gasoline
-                </li>
-                
-            </ul>
+                    <li data-status="home" class="main-menu-list-item" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
+                        <i class="material-icons md-24" style="width:24px">directions_car</i><br>Automobile
+                    </li>
 
-            <ul class="list-unstyled main-menu main-menu-list">
-                <li id="new" class="deactivated">New <i class="material-icons">add</i></li>
-            </ul>
-        </menu>
-        <menu class="col col-md-12">
-            <ul class="list-unstyled main-menu">
-                <li data-role="none"><a href="pages/authentication/o365.html" style="color:#ffb80c" data-ajax="false" onclick="signout();" class="ui-link">Sign-out <i class="material-icons" style="width:24px">keyboard_backspace</i></a></li>
-            </ul>
-        </menu>
-    </div>
-</aside>
-<main id="main-section">
-   <article class="/home"></article> 
-   <article class="/automobile"></article> 
-</main>
+                     <li data-status="home" class="main-menu-list-item" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/gasoline/'">
+                        <i class="material-icons md-24" style="width:24px">local_gas_station</i><br>Gasoline
+                    </li>
+                    
+                </ul>
+
+                <ul class="list-unstyled main-menu main-menu-list">
+                    <li id="new" class="deactivated">New <i class="material-icons">add</i></li>
+                </ul>
+            </menu>
+            <menu class="col col-md-12">
+                <ul class="list-unstyled main-menu">
+                    <li data-role="none"><a href="#/auth" style="color:#ffb80c" data-ajax="false" onclick="signout();" class="ui-link">Sign-out <i class="material-icons" style="width:24px">keyboard_backspace</i></a></li>
+                </ul>
+            </menu>
+        </div>
+    </aside>
+
+    <main class="col" id="main-section">
+       <article class="/home" id="home-section"></article> 
+       <article class="/automobile"></article> 
+       <article class="/gasoline" id="gasoline-section">
+            <div class="row">
+                <section class="col-lg-2" id="gasoline-list-section" style="height: 100vh;box-shadow:0 0 5px rgba(200,200,200,.7);"></section>
+                <section class="col-lg-7 offset-lg-1" id="gasoline-info-section"> </section>
+                <!--<section class="col-lg-5 offset-lg-1 hide" id="gasoline-section"></section>-->
+                <section class="col-lg-5 offset-lg-3 hide" id="gasoline-registration-section"></section>
+
+            </div>
+       </article> 
+    </main>
+
+</article>
+
+
