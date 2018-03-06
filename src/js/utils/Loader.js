@@ -4,6 +4,8 @@ export class Loader{
 
 	//lazy load external scripts
 	load(src=[],opts={}){
+		// files loaded
+		window.trs.loadedScript = window.trs.loadedScript || [] 
 		return new Promise((resolve,reject)=>{
 			//options
 			let opt=opts
@@ -11,12 +13,21 @@ export class Loader{
 			opt.once=opts.once||false
 
 			for(let file of src){
-				//script
+				// script
 				let sc=document.createElement('script')
 				sc.src=file
-				//attributes
+				// attributes
 				if(opt.async) sc.setAttribute('async','')
-				//mark as loaded by lazy loader func
+
+				// mark as loaded by lazy loader func
+				if(opt.once) {
+					if (window.trs.loadedScript.indexOf(file) == -1 ) {
+						window.trs.loadedScript.push(file)
+					}else{
+						return 0;
+					}
+				}
+				// load
 				if(opt.module) sc.setAttribute('type','module')
 				sc.setAttribute('lazy-loaded','')
 				document.body.appendChild(sc)

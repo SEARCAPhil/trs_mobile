@@ -1,47 +1,63 @@
-import Authentication from '../../services/Auth/Auth'
+import Auth from '../../services/Auth/Auth'
 
-const xhr = new window.trs.exports.XHR()
-const Auth = new Authentication(xhr)
+/* function auth call */
+const auth = new Auth()
+const usernameField = document.getElementById('username')
+const passwordField = document.getElementById('password')
+const loginBtn = document.getElementById('loginBtn')
+const loginForm = document.querySelector('form[name="login"]')
+const loginStatus = document.getElementById('auth-status')
+
+const getUsernameValue = (e) => {
+	const val = e.target.value
+	// toggle login button
+	const btn = (val.length > 0) ? loginBtn.removeAttribute('disabled') : loginBtn.setAttribute('disabled', 'disabled')
+}
 
 const showLoginError = () => {
-	const htm = `<br/>
-		<span class="text-danger text-center" style="border:1px solid orangered;padding:10px;">Invalid Username or password. Please try again</span><br/>
-	`
-	// error
-	document.querySelector('.login-status').innerHTML = htm
+	loginStatus.innerHTML ='<div class="col-lg-12 text-danger text-center auth-error-section">Invalid username or password<br/>Please try again later<br/><div>'
+	// hide loading
+	document.querySelector('loading-page').classList.add('hide')
+	loginBtn.removeAttribute('disabled')
 }
 
 const login = (e) => {
 	e.preventDefault()
 
-	// fields
-	const usernameField = document.getElementById('username')
-	const passwordField = document.getElementById('password')
+	// non empty value
+	if (usernameField.value.length > 0 && passwordField.value.length > 0) {
+		// loading
+		document.querySelector('loading-page').classList.remove('hide')
+		// disable
+		loginBtn.setAttribute('disabled', 'disabled')
+		// login
+		auth.login(usernameField.value,passwordField.value).then(json => {
+			let data = JSON.parse(json)
 
-	// login
-	Auth.login(usernameField.value, passwordField.value).then((json) => {
-		let data = {}
+			if (data.token){
+				// proceed
+				auth.store(data)
+				//save to config
+				window.trs = window.trs || {}
+				window.trs.config = window.trs.config || {}
+				window.trs.config.token = data.token
+				window.trs.config.credentials = data
 
-		try {
-			// mock data
-			data = {
-				username: usernameField.value,
-				name: 'John Doe Jr.',
-				token: 'customTokenHereFromAPI',
-				uid: 1,
-				id: 1,
+				//home
+				setTimeout(() => {
+					window.location.hash = '/home'
+				},1000)
+
+			}else{
+				showLoginError()
 			}
-		} catch (error) {
+		}).catch((err) => {
+			console.log(err)
 			showLoginError()
-		}
-		// success
-		if (data.id) {
-			window.location.hash = '#/home'
-		}
-	})
+		})	
+	}
+	
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-	document.querySelector('form[name="auth-form"]').addEventListener('submit', login)
-})
-
+usernameField.addEventListener('keyup', getUsernameValue)
+loginForm.addEventListener('submit', login)

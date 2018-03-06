@@ -10,11 +10,45 @@
         background: rgb(255,184,12);
         margin: 2px 98% 1px 15px;
     }
+    .sidebar{
+      position: relative;
+      z-index: 1058;
+      background:rgba(0,0,0,0.7);
+      min-width:100px;
+      margin-top: 50px;
+    }
+    .sidebar.reveal{
+      display: block !important
+    }
+    .sidebar.hide{
+      display: none !important
+    }
+    .sidebar-content{
+      width: 100%;
+      height: 100%;
+      left: 0;
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (max-width : 480px) {
+        .sidebar {
+            position: absolute !important;
+        }
+    }
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 320px) {
+       .sidebar {
+            position: absolute !important;
+        }
+    }
+
+
 </style>
 <header>
     <nav class="navbar navbar-dark navbar-top fixed-top">
         <ul class="nav nav-top-menu">
-            <li class="nav-item" id="about-tab">
+            <li class="nav-item navbar-main-menu" id="about-tab">
                 <span class="navbar-brand hamburger">
                     <span class="burger"></span> 
                     <span class="burger"></span> 
@@ -28,30 +62,29 @@
 <article class="d-flex align-items-stretch">
     
 
-    <aside class="col-lg-2 col-md-3 col-xs-12 d-none d-lg-block" id="docker-sidebar" data-role="none" data-enhance="false" style="background:rgba(0,0,0,.7);min-width:100px">    <div class="content container-fluid" style="height:1080px;background:0 0">
+    <aside class="col-12 col-lg-2 col-md-3 col-xs-12 d-none d-lg-block sidebar"  id="docker-sidebar">    
+
+        <div class="content container-fluid sidebar-content" style="height:1080px;">
             <menu class="col col-md-12">
                 <ul class="list-unstyled main-menu main-menu-list">
                     <li data-status="home" class="main-menu-list-item active" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
                         <i class="material-icons md-24" style="width:24px">home</i><br>Home
                     </li>
 
-                    <li data-status="home" class="main-menu-list-item" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
-                        <i class="material-icons md-24" style="width:24px">directions_car</i><br>Automobile
+                     <li data-status="home" class="main-menu-list-item" id="gasoline_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/gasoline/'" style="position: relative;">
+                        <i class="material-icons md-24" style="width:24px">local_gas_station</i><br>Gasoline <div style="float:left;width:25px;height:25px;background:#EB5757;text-align:center;border-radius:50%;color:#fff;right:10px; top:20px;position: absolute;"><a href="#/gasoline/forms/registration" style="color:#fff;">+</a></div>
                     </li>
 
-                     <li data-status="home" class="main-menu-list-item" id="home_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/gasoline/'">
-                        <i class="material-icons md-24" style="width:24px">local_gas_station</i><br>Gasoline
+                    <li data-status="home" class="main-menu-list-item deactivated" id="automobile_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
+                        <i class="material-icons md-24" style="width:24px">directions_car</i><br>Automobile
                     </li>
                     
                 </ul>
 
-                <ul class="list-unstyled main-menu main-menu-list">
-                    <li id="new" class="deactivated">New <i class="material-icons">add</i></li>
-                </ul>
             </menu>
             <menu class="col col-md-12">
                 <ul class="list-unstyled main-menu">
-                    <li data-role="none"><a href="#/auth" style="color:#ffb80c" data-ajax="false" onclick="signout();" class="ui-link">Sign-out <i class="material-icons" style="width:24px">keyboard_backspace</i></a></li>
+                    <li data-role="none"><a href="#/auth" style="color:#ffb80c" >Sign-out <i class="material-icons" style="width:24px">keyboard_backspace</i></a></li>
                 </ul>
             </menu>
         </div>
@@ -62,8 +95,20 @@
        <article class="/automobile"></article> 
        <article class="/gasoline" id="gasoline-section">
             <div class="row">
-                <section class="col-lg-2" id="gasoline-list-section" style="height: 100vh;box-shadow:0 0 5px rgba(200,200,200,.7);"></section>
-                <section class="col-lg-7 offset-lg-1" id="gasoline-info-section"> </section>
+                <!-- list -->
+                <section class="col-lg-2" id="gasoline-list-section" style="height: 100vh;border-right:1px solid rgba(200,200,200,.7);overflow-y:auto;"></section>
+                <!-- empty -->
+                <section class="col" id="gasoline-info-section-empty" style="background-color:#eee;">
+                    <main style="margin-top:150px">
+                         <center class="text-muted">
+                            <span><i class="material-icons" style="font-size: 5em;">local_gas_station</i></span><br/>
+                            <h4>Gasoline Expenses</h4>
+                            <p>Record your gasoline expenses anywhere, anytime!</p>
+                        </center>
+                    </main>
+                </section>
+                <!-- info -->
+                <section class="col hide" id="gasoline-info-section" style="background-color:#eee;height: 100vh;padding-bottom: 20px;overflow-y: auto;"></section>
                 <!--<section class="col-lg-5 offset-lg-1 hide" id="gasoline-section"></section>-->
                 <section class="col-lg-5 offset-lg-3 hide" id="gasoline-registration-section"></section>
 
@@ -72,5 +117,10 @@
     </main>
 
 </article>
+<div class="d-none d-xl-block" id="xl-breakpoint">
+<div class="d-none d-lg-block d-xl-none" id="lg-breakpoint"></div>
+<div class="d-none d-md-block d-lg-none" id="md-breakpoint"></div>
+<div class="d-none d-sm-block d-md-none" id="sm-breakpoint"></div>
+<div class="d-block d-sm-none" id="xs-breakpoint"></div>
 
 

@@ -1,18 +1,33 @@
 const Sha1 = require('sha1')
 
 export default class {
-	constructor(opt = {}) {
-		this.xhr = new window.trs.exports.XHR() || opt.XHR
-		this.conf = window.trs.config.network || opt.network
-		this.url = `${this.conf}auth/auth.php`
+	constructor () {
+		this.xhr = new window.trs.exports.XHR()
+		this.config = window.trs.config.network
+	}
+	info (username) {
+		this.username = username
+		this.xhr.request({ url: `${this.config}/test` }).then((e) => {
+			this.profile = e
+		}).catch((error) => {
+			this.authError = error
+		})
+	}
+	login (username, password) {
+
+		let data = {
+			username,
+			password: Sha1(password)
+		}
+		
+		return this.xhr.request({ url: `${this.config}auth/`, method: 'POST', body:JSON.stringify(data) })
+	}
+	store (credential) {
+		window.localStorage.setItem('credentials',JSON.stringify(credential))
+		window.localStorage.setItem('token',credential.token)
 	}
 
-	login(username, password) {
-		const data = {
-			username,
-			password: Sha1(password),
-		}
-
-		return this.xhr.request({ url: this.url, method: 'POST', body: JSON.stringify(data) })
+	getCredentials () {
+		return window.localStorage.setItem('credentials')	
 	}
 }

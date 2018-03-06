@@ -95,6 +95,12 @@
             font-weight: 400;
             font-size: 1rem;
         }
+        loading-page{
+          position: absolute;
+          top:30vh;
+          left:48%;
+          z-index: 100;
+        }
         
         /*spinner*/
         /*http://tobiasahlin.com/spinkit/*/
@@ -156,6 +162,15 @@
             </div>
         </center>
     </initial-page>
+
+    <loading-page class="hide">
+        <center>
+            <div class="spinner">
+              <div class="double-bounce1"></div>
+              <div class="double-bounce2"></div>
+            </div>
+        </center>
+    </loading-page>
 
     <!-- App entry container -->
     <main id="main-container"></main>
