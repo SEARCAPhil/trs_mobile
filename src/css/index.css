@@ -33,6 +33,7 @@ summary{
 .navbar-top{
     background: rgb(60,60,60) !important;
     margin-bottom: 0;
+    min-height: 56px;
 }
 /*main menu*/
 .main-menu{
@@ -40,13 +41,15 @@ summary{
 }
 
 .main-menu li{
-    padding: 10px 5px 10px 5px;
-    text-align: center;
+    padding: 10px 5px 10px 10px;
     margin-bottom: 2px;
     cursor:pointer;
     font-size: 12px;
 }
-.main-menu li.active{
+.main-menu li a {
+  color: rgb(255,255,255);
+}
+.main-menu li a.active{
   background: rgb(255,184,12);
 }
 

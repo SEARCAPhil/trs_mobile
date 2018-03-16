@@ -125,7 +125,7 @@ const revealSidebar = (e) => {
 }
 
 const activateMenu = (id) => {
-	const el = document.querySelectorAll('.main-menu-list-item')
+	const el = document.querySelectorAll('.main-menu-list-item a')
 	el.forEach((el, index) => {
 		if(id != el.getAttribute('id')) {
 			el.classList.remove('active')
@@ -134,6 +134,21 @@ const activateMenu = (id) => {
 		}
 	})
 }
+
+
+const activateListMenu = (id) => {
+	const el = document.querySelectorAll('.list-menu li a')
+
+	el.forEach((el, index) => {
+
+		if(id != el.getAttribute('id')) {
+			el.classList.remove('active')
+		}else{
+			el.classList.add('active')
+		}
+	})
+}
+
 
 const hideSidebarOnclick = () => {
 	// hide when click for mobile display
@@ -161,17 +176,21 @@ const loadIndexPage = () => {
 		return new Promise((resolve, reject) => { resolve() })
 	}
 
-	return Request.request({ method: 'GET', url }).then((res) => {
-		
-		window.trs.loadedScript.push(url)
-		mainContainer.innerHTML = res
-		document.querySelector('initial-page').classList.add('hide')
+	return new Promise((resolve, reject) => {
+		return Request.request({ method: 'GET', url }).then((res) => {
+			
+			window.trs.loadedScript.push(url)
+			mainContainer.innerHTML = res
+			document.querySelector('initial-page').classList.add('hide')
 
-		// sidebar
-		let handle = document.querySelectorAll('.navbar-main-menu')
+			// sidebar
+			let handle = document.querySelectorAll('.navbar-main-menu')
 
-		handle.forEach((val, index) => {
-			val.addEventListener('click', revealSidebar)
+			handle.forEach((val, index) => {
+				val.addEventListener('click', revealSidebar)
+			})
+
+			resolve()
 		})
 	})
 	
@@ -179,6 +198,8 @@ const loadIndexPage = () => {
 
 const loadHome = () => {
 	const mainSection = document.getElementById('home-section')
+
+
 	mainSection.innerHTML = `<section style="padding-top:70px;" class="col col-lg-10 col-sm-12 col-xs-12 offset-lg-1">
 		<center class="col-lg-6 col-md-6 col-sm-8 offset-lg-3 offset-md-3 offset-sm-2">
 			<div class="col-lg-12 col-md-12 col-sm-12"><br/><br/>
@@ -197,6 +218,7 @@ const loadHome = () => {
 	document.querySelector('loading-page').classList.add('hide')
 }
 
+
 const loadGasolineListSection = () => {
 	const gasolineListSection  = document.getElementById('gasoline-list-section')
 	const curMonth = new Date().getMonth()
@@ -204,55 +226,201 @@ const loadGasolineListSection = () => {
 	let monthDiv = ''
 
 	for (let x = curMonth; x >= 0; x--) {
-		monthDiv += `<div class="row gasoline">
-						<div class="col-12 month-header">
-							<div style="background: #dc3545;width: 100px;color:  #fff;text-align:  center;border-radius: 3px;">
-								<span class=""> <small>${window.trs.config.months[x]}  ${curYear}</small> </span>
+		monthDiv += `<div class="row">
+						<div class="col-12 row month-header" data-month="${x+1}" data-year="${curYear}">
+							<div class="col text-muted" style="width: 100px;border-radius: 3px;margin-left:10px;"  data-month="${x+1}" data-year="${curYear}">
+									<small  data-month="${x+1}" data-year="${curYear}">
+										<i class="material-icons md-12">date_range</i>	${window.trs.config.months[x]}  ${curYear} <i class="material-icons md-12">expand_more</i>
+										 <a href="#" onclick="event.preventDefault();" class="text-muted float-right refresh-month-btn" data-month="${x+1}" data-year="${curYear}">
+										 	<i class="material-icons md-18">refresh</i> Sync
+										 </a>
+									</small>
 							</div>
 						</div>
 						<div class="col col-lg-12" id="gasoline-month-section-${x+1}"></div>
 					</div>`
 	}
 
+
 	gasolineListSection.innerHTML = `
 		<style>
 			.gasoline{
-				
-				padding-top:5px;
-				padding-bottom:5px;
+				background:#fff;
 			}
-			.gasoline > .month-header{
+			.gasoline.with-margin{
+				background:#fff;
+				margin-top:25px;
+			}
+			#gasoline-list-section {
+					background: #f5f5f5;
+				}
+			.gasoline.active{
+				background:#607d8b0f;
+			}
+			.month-header{
 				padding-top:10px;
+				margin-bottom:10px;
 			}
 			.gasoline > .month-header h5{
 				font-size:12px;
 			}
-			.gasoline.with-margin{
+			/*.gasoline.with-margin{
 				margin-top:-20px;
+			}*/
+			#gasoline-list-header-container {
+				
 			}
+			.list-menu {
+				background:#fff;
+			}
+			.list-menu li a {
+				border-bottom:2px solid #9E9E9E;
+				color:#454545;
+			}
+			.list-menu li a.active {
+				border-bottom:2px solid #F44336;
+				color:#F44336;
+			}
+
+
+		    /* Extra Small Devices, Phones */ 
+		    @media only screen and (max-width : 480px) {
+		        .list-menu  {
+		            background : #3c3c3c;
+		        }
+		        .list-menu li a, .list-menu li a.active {
+		        		color:#fff;
+		        }
+				
+		    }
+
+		    /* Custom, iPhone Retina */ 
+		    @media only screen and (max-width : 320px) {
+		       .list-menu  {
+		            background : #3c3c3c;
+		        }
+		        .list-menu li a, .list-menu li a.active {
+		        		color:#fff;
+		        }
+		    }
+
+		    /* Medium Devices, Desktops */
+		    @media only screen and (max-width : 992px) {
+		       .list-menu  {
+		            background : #3c3c3c;
+		        }
+		        .list-menu li a, .list-menu li a.active {
+		        		color:#fff;
+		        }
+		    }
+
+		    /* Small Devices, Tablets */
+		    @media only screen and (max-width : 768px) {
+		        .list-menu  {
+		            background : #3c3c3c;
+		        }
+		        .list-menu li a, .list-menu li a.active {
+		        		color:#fff;
+		        }
+		    }
+
+
+
+
 		</style>
-		<div style="padding-top:50px;">
+		<div style="padding-top:50px;padding-bottom:50px;">
+				<div id="gasoline-list-header-container">
+					<ul class="nav list-menu row">
+						<li class="nav-item col-6">
+							<a href="#/gasoline/" class="nav-link active row" id="paid-gasoline"><i class="material-icons md-18">computer</i> All</a>
+						</li>
+
+						<li class="nav-item col-6"">
+							<a href="#/gasoline/unpaid" class="nav-link row" id="unpaid-gasoline">Pending</a>
+						</li>
+					</ul>
+				</div>
 				<div id="gasoline-list-container"></div>
+				<div id="gasoline-list-container-unpaid" class="hide"></div>
 		</div>
 		
 				`
 	document.getElementById('gasoline-list-container').innerHTML = monthDiv	
+
+}
+
+
+const loadGasolineSection = () => {
+	// check token
+	// window.trs.default.checkLoginInstance()
+	// hide sidebar for small and medium devices
+	hideSidebarOnclick()
+
+	activateMenu('gasoline_menu')
+	activateListMenu('paid-gasoline')
+
+	changeDisplay(['#gasoline-info-section'], 'none')
+	//changeDisplay(['#gasoline-info-section-empty'], 'block')
+
+	LazyLoader.load(['js/routers/info.js'], { async: true, once: true })
+	changeDisplay(['#home-section','#gasoline-registration-section', '#gasoline-reports-section', '#gasoline-list-container-unpaid'],'hide')
+	changeDisplay(['#gasoline-section','#gasoline-list-section', '#gasoline-list-container'],'block')
+	loadIndexPage().then(e => {
+		activateMenu('gasoline_menu')
+		const gasolineListSection  = document.querySelector('.month-header')
+		// do not proceed if list is already present in DOM
+		if(!gasolineListSection) {
+			loadGasolineListSection()
+		}
+
+	}).catch((err) => {
+		// show spinner
+		document.querySelector('loading-page').classList.add('hide')
+	})	
 }
 
 
 const loadRouterInit = () => {
+
+	// cordova
+	try {
+		if (cordova) {
+			window.open = cordova.InAppBrowser.open
+		}
+	} catch(err) {
+
+	}
+
+	// check token
+    if (!window.trs.config.token) {
+      window.location.hash = '/auth'
+    }
+   
+
 	appRoute.on({
 		'auth/': () => {
+			changeDisplay(['#main-container'],'none')
+			changeDisplay(['#main-auth-container'],'block')
+
+			const mainAuthContainer = document.getElementById('main-auth-container')
 			// load login page
 			Request.request({ method: 'GET', url: 'modules/auth/index.html' }).then((res) => {
-				mainContainer.innerHTML = res
+				mainAuthContainer.innerHTML = res
 				document.querySelector('initial-page').classList.add('hide')
 
-				// clear session
-				window.localStorage.clear()
-				window.sessionStorage.clear()
 				LazyLoader.load(['js/components/auth/auth.js'], { async: true })
 			})
+		},
+		'signout/': () => {
+			// clear session
+			window.localStorage.clear()
+			window.sessionStorage.clear()
+			delete window.trs.config.token
+
+			const loc = `${window.location.origin}${window.location.pathname}#/auth`
+			// window.location.hash = '/home'
+			window.location.href = loc
+
 		},
 		'home/': () => {
 			// check token
@@ -265,33 +433,24 @@ const loadRouterInit = () => {
 	
 			loadIndexPage().then(e => {
 					loadHome()	
-					changeDisplay(['#gasoline-info-registration', '#gasoline-info-section', '#gasoline-info-section-empty', '#gasoline-info', '#gasoline-section'],'hide')
-					changeDisplay(['#home-section'],'block')
+					changeDisplay(['#main-auth-container', '#gasoline-info-registration', '#gasoline-info-section', '#gasoline-info-section-empty', '#gasoline-info', '#gasoline-section'],'hide')
+					changeDisplay(['#home-section','#main-container'],'block')
 			})	
 		},
 		'gasoline/': () => {
-			// check token
-			window.trs.default.checkLoginInstance()
-			// hide sidebar for small and medium devices
-			hideSidebarOnclick()
+			// show spinner
+			document.querySelector('loading-page').classList.remove('hide')
 
-			activateMenu('gasoline_menu')
-			changeDisplay(['#gasoline-info-section'], 'none')
-			changeDisplay(['#gasoline-info-section-empty'], 'block')
+			loadGasolineSection()
+		},
+		'gasoline/unpaid': () => {
+			// show spinner
+			document.querySelector('loading-page').classList.remove('hide')
 
-			LazyLoader.load(['js/routers/info.js'], { async: true, once: true })
-			changeDisplay(['#home-section','#gasoline-registration-section'],'hide')
-			changeDisplay(['#gasoline-section','#gasoline-list-section'],'block')
-			loadIndexPage().then(e => {
-				activateMenu('gasoline_menu')
-				const gasolineListSection  = document.querySelector('.month-header')
-				// do not proceed if list is already present in DOM
-				if(!gasolineListSection) {
-					loadGasolineListSection()
-				}
-				
-
-			})	
+			loadGasolineSection()
+			setTimeout(() => {
+				activateListMenu('unpaid-gasoline')
+			},500);
 		},
 		'gasoline/:id/info': (params) => {
 			// check token
@@ -311,13 +470,20 @@ const loadRouterInit = () => {
 				loadIndexPage().then(e => {
 					loadGasolineListSection()
 					// change display
-					changeDisplay(['#gasoline-info-section', '#gasoline-list-section'], 'block')
-					changeDisplay(['#gasoline-info-section-empty', '#gasoline-registration-section'], 'none')
+					changeDisplay(['#gasoline-info-section', '#gasoline-list-section', '#info-tab'], 'block')
+					changeDisplay(['#gasoline-info-section-empty', '#gasoline-registration-section', '#gasoline-reports-section'], 'none')
+
+					setTimeout(() => {
+						activateListMenu('paid-gasoline')
+					},400);
+
 				})	
 			}
 
-			changeDisplay(['#gasoline-info-section', '#gasoline-list-section'], 'block')
+			changeDisplay(['#gasoline-info-section', '#gasoline-list-section', '#info-tab'], 'block')
 			changeDisplay(['#gasoline-info-section-empty', '#gasoline-registration-section'], 'none')
+
+			
 			
 
 
@@ -353,12 +519,39 @@ const loadRouterInit = () => {
 			})
 				
 		},
+		'gasoline/reports': () => {
+			// check token
+			window.trs.default.checkLoginInstance()
+
+			// hide sidebar for small and medium devices
+			hideSidebarOnclick()
+
+			loadIndexPage().then(e => {
+				const gasolineSection = document.getElementById('gasoline-reports-section')
+				// load gasoline registration page
+				Request.request({ method: 'GET', url: 'modules/gasoline/reports.html' }).then((res) => {
+					// clear info settings
+					window.trs.default.current.gasoline = {}
+
+					gasolineSection.innerHTML = res
+					changeDisplay(['initial-page', '#home-section', '#gasoline-info-section', '#gasoline-info', '#gasoline-info-section-empty', '#gasoline-list-section', '#gasoline-registration-section'],'hide')
+					changeDisplay(['#gasoline-section', '#gasoline-reports-section',],'block')
+
+					 LazyLoader.load(['js/components/gasoline/reports.js'], { async: true })
+
+				})
+			})
+				
+		},
 		'gasoline/forms/registration/:id/update': (params) => {
 			// check token
 			window.trs.default.checkLoginInstance()
 
 			// hide sidebar for small and medium devices
 			hideSidebarOnclick()
+
+			// show spinner
+			document.querySelector('loading-page').classList.remove('hide')
 
 			loadIndexPage().then(e => {
 				const gasolineSection = document.getElementById('gasoline-registration-section')
@@ -379,6 +572,9 @@ const loadRouterInit = () => {
 					date.innerHTML = `<small>${window.trs.config.months[nDate.getMonth()]} ${nDate.getUTCDate()}, ${nDate.getUTCFullYear()}&emsp;</small>`
 
 
+				}).catch((err) => {
+					// hide spinner
+					document.querySelector('loading-page').classList.add('hide')
 				})
 
 				// expire link once refreshed

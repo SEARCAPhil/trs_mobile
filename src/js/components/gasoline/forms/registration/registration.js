@@ -55,13 +55,14 @@ const getGasolineInfo = () => {
 					dateReceived.value = `${d.received_year}-${d.received_month < 10 ? '0'+d.received_month : d.received_month }-${d.received_day < 10 ? '0'+d.received_day : d.received_day}`
 	
 			}*/	
+
 		}).catch((err) => {
 			resolve(err)
 		})
 	})
 }
 const saveGasoline = (e) => {
-	let trNumber=document.querySelector('form[name="gasoline-form"] input#tr_number')
+	let trNumber=document.querySelector('form[name="gasoline-form"] input#tt_number')
 	let amount=document.querySelector('form[name="gasoline-form"] input#amount')
 	let liters=document.querySelector('form[name="gasoline-form"] input#liters')
 	let receipt=document.querySelector('form[name="gasoline-form"] input#receipt')
@@ -70,123 +71,126 @@ const saveGasoline = (e) => {
 	let driver=document.querySelector('form[name="gasoline-form"] select#driver')
 	let vehicle=document.querySelector('form[name="gasoline-form"] select#vehicle')
 
-	let errorCount = 0
+	let error = []
 
 	// tr number
 	if(trNumber.value.length < 1 ) {
-		errorCount++
+		error.push('tt')
 		trNumber.classList.add('error')
 		showError()
 	}else{
-		errorCount--
+		error.pop()
 		trNumber.classList.remove('error')
 	}
 
 	// amount
-	if(amount.value.length < 1 ) {
+	/*if(amount.value.length < 1 ) {
 		errorCount++
 		amount.classList.add('error')
 		showError()
 	}else{
 		errorCount--
 		amount.classList.remove('error')
-	}
+	}*/
 
 	// amount
-	if(liters.value.length < 1 ) {
-		errorCount++
+	/*if(liters.value.length < 1 ) {
+		error.push('liters')
 		liters.classList.add('error')
 		showError()
 	}else{
-		errorCount--
+		error.pop()
 		liters.classList.remove('error')
-	}
+	}*/
 
 	// receipt number
-	if(receipt.value.length < 1 ) {
+	/*if(receipt.value.length < 1 ) {
 		errorCount++
 		receipt.classList.add('error')
 		showError()
 	}else{
 		errorCount--
 		receipt.classList.remove('error')
-	}
+	}*/
 
 	// date received
-	if(dateReceived.value.length < 1 ) {
+	/*if(dateReceived.value.length < 1 ) {
 		errorCount++
 		dateReceived.classList.add('error')
 		showError()
 	}else{
 		errorCount--
 		dateReceived.classList.remove('error')
-	}
+	}*/
 
 	// gasoline station
 	if(station.value.length < 1 ) {
-		errorCount++
+		error.push('station')
 		station.classList.add('error')
 		showError()
 	}else{
-		errorCount--
+		error.pop()
 		station.classList.remove('error')
 	}
 
 	//driver
 	if(driver.value.length < 1 ) {
-		errorCount++
+		error.push('driver')
 		driver.classList.add('error')
 		showError()
 	}else{
-		errorCount--
+		error.pop()
 		driver.classList.remove('error')
 	}
 
 	// if no errors encountered
-	if(errorCount > 0) return 0
+	if(error.length > 0) return 0
 
-	// disable button
-	let btn = document.getElementById('gasoline-form-btn')
-	btn.disabled = 'disabled'
+	setTimeout(() => {
 
-	let data = {
-		tr_number: trNumber.value,
-		automobile_id: vehicle.value,
-		amount: amount.value,
-		liters: liters.value,
-		receipt: receipt.value,
-		station: station.value,
-		driver_id: driver.value,
-		date_received: dateReceived.value,
-		token: window.trs.config.token,
-		action: window.trs.default.current.gasoline.id ? 'update' : 'create',
-	}
+		// disable button
+		let btn = document.getElementById('gasoline-form-btn')
+		btn.disabled = 'disabled'
 
-	if (window.trs.default.current.gasoline.id) {
-		data.id = window.trs.default.current.gasoline.id
-	}
-
-	Gas.add(data).then(json => {
-		let res = JSON.parse(json) 
-
-		if (res.data) {
-			showSuccess().then(() => {
-				e.target.reset()
-				btn.removeAttribute('disabled')
-
-				//go to detail page for update
-				if (window.trs.default.current.gasoline.id) {
-					setTimeout(() => {
-						window.location.hash = `/gasoline/${window.trs.default.current.gasoline.id}/info`
-					},3000)
-					
-				}
-			})
+		let data = {
+			tt_number: trNumber.value,
+			automobile_id: vehicle.value,
+			amount: amount.value,
+			liters: liters.value,
+			receipt: receipt.value,
+			station: station.value,
+			driver_id: driver.value,
+			date_received: dateReceived.value,
+			token: window.trs.config.token,
+			action: window.trs.default.current.gasoline.id ? 'update' : 'create',
 		}
-	}).catch((err) => {
-		showError()
-		btn.removeAttribute('disabled')
-	})
+
+		if (window.trs.default.current.gasoline.id) {
+			data.id = window.trs.default.current.gasoline.id
+		}
+
+		Gas.add(data).then(json => {
+			let res = JSON.parse(json) 
+
+			if (res.data) {
+				showSuccess().then(() => {
+					e.target.reset()
+					btn.removeAttribute('disabled')
+
+					//go to detail page for update
+					if (window.trs.default.current.gasoline.id) {
+						setTimeout(() => {
+							window.location.hash = `/gasoline/${window.trs.default.current.gasoline.id}/info`
+						},3000)
+						
+					}
+				})
+			}
+		}).catch((err) => {
+			showError()
+			btn.removeAttribute('disabled')
+		})
+	},100)
 		
 }
 
@@ -234,7 +238,7 @@ const getDrivers = () => {
 // get info for update 
 if (window.trs.default.current.gasoline.id) {
 	getGasolineInfo().then(json => {
-		let trNumber=document.querySelector('form[name="gasoline-form"] input#tr_number')
+		let trNumber=document.querySelector('form[name="gasoline-form"] input#tt_number')
 		let amount=document.querySelector('form[name="gasoline-form"] input#amount')
 		let liters=document.querySelector('form[name="gasoline-form"] input#liters')
 		let receipt=document.querySelector('form[name="gasoline-form"] input#receipt')
@@ -243,7 +247,7 @@ if (window.trs.default.current.gasoline.id) {
 		let driver=document.querySelector('form[name="gasoline-form"] select#driver')
 		let vehicle=document.querySelector('form[name="gasoline-form"] select#vehicle')
 
-		trNumber.value = json.tr_number
+		trNumber.value = json.tt_number
 		amount.value = json.amount
 		liters.value = json.liters
 		receipt.value = json.receipt
@@ -264,6 +268,9 @@ if (window.trs.default.current.gasoline.id) {
 				driver.options[0].textContent = json.driver[0].profile_name
 			}
 		})
+
+		// hide spinner
+		document.querySelector('loading-page').classList.add('hide')
 	})
 }else{
 	getVehicle()

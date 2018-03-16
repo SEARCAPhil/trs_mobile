@@ -174,12 +174,14 @@
 
     <!-- App entry container -->
     <main id="main-container"></main>
+    <main id="main-auth-container"></main>
 
 
     <link rel="preload" as="style" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css" onload="this.rel='stylesheet'"/>
 
     <link rel="preload" as="style"  type="text/css" href="css/index.css" onload="this.rel='stylesheet'"/>
     <link rel="preload" as="style"  type="text/css" href="css/docker.css" onload="this.rel='stylesheet'"/>
+    <link rel="preload" as="style"  type="text/css" href="css/fileicon.css" onload="this.rel='stylesheet'"/>
     <script src="js/shell.js"></script>
     <script>
         setTimeout(()=>{
@@ -197,3 +199,14 @@
 </body>
 
 </html>
+<script type="text/javascript">
+  const redirect = () => {
+    if (window.location.hash.length ===0) {
+      window.location.hash = '/home'
+    }
+  }
+
+  document.addEventListener('deviceready', redirect)
+  redirect()
+
+</script>

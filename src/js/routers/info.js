@@ -20,7 +20,7 @@ const removeGasoline = () => {
 	let data = {
 		id : window.trs.default.modal.resources,
 		action: 'remove',
-		token: 'abc',
+		token: window.trs.config.token,
 	}
 
 	Gas.remove(data).then((res) => {
@@ -75,10 +75,26 @@ const loadGasolineInfo = (opt = {}) => {
 		</div>	
 	</dialog>
 
+	<style>
+	.gasoline-history-list {
+		padding:5px;
+		border-bottom:1px solid rgba(200,200,200,0.4);
+		padding-top:10px;
+		padding-left:15px;
+		margin-left:4px;
+		margin-bottom:10px;
+	}
+
+	.gasoline-history-list(last-child) {
+		border:none;
+	}
+
+	</style>
+
 	<div class="offset-lg-1 col-8" style="margin-top:70px;">
 		
 		<small>
-		 		<a href="#/gasoline" style="color:#ffb80c">
+		 		<a href="#/gasoline" onclick="window.history.go(-1); return false;">
 					<i class="material-icons md-18" style="width:24px">keyboard_backspace</i>
 				</a>
 				<i class="material-icons md-18">local_gas_station</i>	Gasoline <span class="text-muted">&gt; Info</span>
@@ -99,7 +115,7 @@ const loadGasolineInfo = (opt = {}) => {
                     <p>
                     	<ul class="nav">
                     		<li class="nav-item text-center" style="border-bottom:2px solid green; width:50px;"><a href="#/gasoline/${opt.id}/info">Info</a></li>
-                    		<li class="nav-item text-center" style="width:50px;display:none;"><a href="#">Logs</a></li>
+                    		<li class="nav-item text-center" style="width:50px;display:none;"><a href="#/gasoline/${opt.id}/logs">Logs</a></li>
                     		<li class="nav-item text-center" style="width:50px;position:relative;">
                     			<i class="material-icons md-18 device-dropdown" data-device-dropdown="dropdown-${opt.id}" data-resources="${opt.id}">expand_more</i>
                     			<div class="dropdown-section float-right" id="dropdown-${opt.id}" style="left:0px;">
@@ -112,23 +128,41 @@ const loadGasolineInfo = (opt = {}) => {
                     	</ul>
                     </p>
 
-                    <h5>PHP ${opt.amount}</h5>
-                    <small>
-                        <p><b>${opt.liters} Liters</b></p>
-                        <p><b><span class="text-muted"># TR Number : </span> ${opt.tr_number}</b></p>
-                        <p><i class="material-icons md-12 text-muted">date_range</i> <span class="text-muted">Date : </span> ${opt.date}</p>
-                        <p><i class="material-icons md-12 text-muted">location_on</i> <span class="text-muted">Location : </span>  ${opt.station}</p>
-                        <p><i class="material-icons md-12 text-muted">account_circle</i>  <span class="text-muted">Driver : </span>  ${opt.driver ? opt.driver  : 'N/A' }</p><br/>
+                    <div class="col" id="info-tab">
 
-                        <hr/>
+                    	<h5>PHP ${opt.amount}</h5>
+	                    <small>
+	                        <p><span class="badge badge-dark">${opt.liters} Liters</span></p>
+	                        <p><b><span class="text-muted"># Trip Ticket Number : </span> ${opt.tt_number}</b></p>
+	                        <p><i class="material-icons text-muted">date_range</i> <span class="text-muted">Date : </span> ${opt.date}</p>
+	                        <p><i class="material-icons text-muted">location_on</i> <span class="text-muted">Location : </span>  ${opt.station}</p>
+	                        <p><i class="material-icons text-muted">account_circle</i>  <span class="text-muted">Driver : </span>  ${opt.driver ? opt.driver  : 'N/A' }</p>
+	                        <br/>
 
-                        <p><b>Receipt</b><br/>
-                            ${opt.receipt}
-                        </p>
-                        <p><b>Date encoded</b><br/>
-                           ${opt.encoded}
-                        </p>
-                    </small>
+	                        <hr/>
+
+	                        <p><b>Receipt</b><br/>
+	                            ${opt.receipt}
+	                        </p>
+	                        <p><b>Date Issued</b><br/>
+	                           ${opt.encoded}
+	                        </p>
+	                    </small>
+	                </div>
+
+	                <hr/>
+	                <div class="col" id="history-tab">
+	                	<p>
+	                		
+	                		<a href="#" style="border-bottom:2px solid green;"><i class="material-icons md-18 text-muted">history</i> History</a>
+	                	</p>
+
+	                	<div class="row" id="gasoline-history-list-section">
+
+
+		                </div>
+
+	                </div>
                 </div>`
     document.getElementById('gasoline-info-section').innerHTML = html
 
@@ -140,23 +174,55 @@ const loadGasolineInfo = (opt = {}) => {
 		//enable removal
 		bindLoadRemoveGasolineModal()
 
-	}, 1000);
+		// history
+		appendGasolineHistory(opt.history)
+
+	}, 600);
 }
 
+const appendGasolineHistory = (data) => {
+	const targ = document.getElementById('gasoline-history-list-section')
+
+	for (let x = 0; x < data.length; x++) {
+		let html = `
+	    	<div class="col-12" class="gasoline-history-list">
+
+	    		<div style="float: left;width: 30px;height: 30px;border-radius: 50%;background: #009688;color:#fff;margin-right: 10px;overflow: hidden;text-align:center;font-weight:bold;">
+					${data[x].profile_name.charAt(0)}
+				</div>
+
+				<span>${data[x].profile_name}</span>
+	    		<small>
+	    			<p class="text-muted">${data[x].message} on ${data[x].date_created}</p>
+	    		</small>
+	    	</div>
+		`
+
+		targ.innerHTML += html
+	}
+
+}
+
+let previousListDate = ''
 const appendGasoline = (data, index) => {
 	const targ = document.getElementById(`gasoline-month-section-${data.received_month}`)
+	const day = `${data.received_year}-${data.received_month}-${data.received_day}`
+	const dayName = new Date(day).toLocaleDateString('en-us', { weekday: 'long' })
+
+	let dateHeader = ''
 	let html = document.createElement('div')
 
 	html.classList.add('row', 'gasoline')
 	html.id = `gasoline-${data.id}`
 
 	if (index > 0) {
-		html.classList.add('with-margin')
+		
 	}else{
 		targ. innerHTML = ''
 	}
 
-	html .innerHTML = `
+	
+	/*html .innerHTML = `
 			<div class="col gasoline-data-section">
 					<h5 style="possition:relative;">
 						<div style="float:left;width:10px;height:10px;background:#4c4c4c;border-radius:50%;margin-top:5px;margin-right:5px;"></div> 
@@ -175,24 +241,186 @@ const appendGasoline = (data, index) => {
 						</small>
 					</div>
 		</div>
+	`*/
+
+	if (previousListDate != day) {
+		// sho margin
+		if (index > 0) {
+			html.classList.add('with-margin')
+		}
+		// header
+		dateHeader = `
+			<div class="d-flex align-items-stretch row"  style="border-bottom:1px solid rgba(200,200,200,0.4);padding-top:15px;padding-bottom:15px;background:#fdfdfd;">
+				<div class="col-2 col-sm-1 col-lg-1 text-center">
+					<h4>${data.received_day}</h4>
+				</div>	
+				<div class="col">
+					<small style="color:#607D8B;">
+						${dayName} <br/>
+						${window.trs.config.months[data.received_month-1]} ${data.received_year}
+					</small>
+				</div>
+			</div>
+		`
+	}
+
+	html .innerHTML = `
+			<div class="col gasoline-data-section" style="border-bottom:1px solid rgba(200,200,200,0.4);padding-bottom:15px;">
+					${dateHeader}
+					<div class="d-flex align-items-stretch row" style="padding-top:10px;">
+						<div class="col-2 col-sm-1 col-lg-2 text-center">
+							<div style="float: left;width: 35px;height: 35px;border-radius: 50%;background: #009688;color:#fff;margin-right: 10px;overflow: hidden;text-align:center;font-weight:bold;">
+								<small>${data.profile_name.substr(0,2).toUpperCase()}	</small>
+							</div>
+							
+						</div>	
+						<div class="col row">
+							<!--<h5 style="position:relative;">
+								<a href="#/gasoline/${data.id}/info" style="color:#F44336;">PHP ${data.amount}</a>
+							</h5>-->
+
+
+								<span class="col-8">
+									<small>
+										<b>${data.profile_name}</b>
+									</small>
+								</span>
+
+								<span class="col-4" style="color:#818181;">
+									<small>
+										<div class="col d-none d-sm-block text-right">
+											<a href="#/gasoline/${data.id}/info" style="color:#F44336;">PHP ${data.amount}</a>
+										</div>
+
+										<div class="d-block d-sm-none">
+											<a href="#/gasoline/${data.id}/info" style="color:#F44336;">PHP ${data.amount}</a>
+										</div>
+
+									</small>
+								</span>
+
+								<div class="col-12">
+									<small>
+										<b>Liters :</b> <span class="badge badge-dark">${data.liters || 0}</span><br/>
+										<b>Trip Ticket# : </b>${data.tt_number}<br/>
+										<b> <i class="material-icons md-12">location_on</i> </b>${data.station}
+									</small>
+								</div>
+
+						</div>
+					</div>
+			</div>
+	`
+	targ.append(html)
+
+	// save current date of new data
+	previousListDate = day
+
+
+}
+
+const appendGasolineUnpaid = (data, index) => {
+	const targ = document.getElementById(`gasoline-list-container-unpaid`)
+	let html = document.createElement('div')
+
+	html.classList.add('row', 'gasoline')
+	html.id = `gasoline-${data.id}`
+
+	if (index > 0) {
+		html.classList.add('with-margin')
+	}else{
+		targ. innerHTML = ''
+	}
+
+	html .innerHTML = `
+			<div class="col gasoline-data-section" style="border-bottom:1px solid rgba(200,200,200,0.4);padding:10px 10px;">
+					<h5 style="position:relative;">
+						<a href="#/gasoline/${data.id}/info" style="color:#F44336;">PHP ${data.amount}</a>
+					</h5>
+					<div class="col row">
+						<small>
+							<b>Trip Ticket# : </b>${data.tt_number}<br/>
+							<b>Date  encoded : </b>${data.date_created}<br/>
+							<b> <i class="material-icons md-12">location_on</i> </b>${data.station}
+						</small>
+					</div>
+			</div>
 	`
 	targ.append(html)
 
 
 }
-const loadGasoline = () => {
-	// creating new instance allows us to create non cancellable request
-	const GasList = new Gasoline()
-	GasList.list({page: 1, token: window.trs.config.token, month: 2, year: 2018}).then((json) => {
-		const data = JSON.parse(json)
-		if (data.data) {
 
-			for (let i = 0; i < data.data.length; i++) {
-				appendGasoline(data.data[i], i)
+const loadGasolineAll = (opt = {}) => {
+
+	return new Promise((resolve, reject) => {
+		// creating new instance allows us to create non cancellable request
+		const GasList = new Gasoline()
+		GasList.list({page: opt.page, token: window.trs.config.token, month: opt.month, year: opt.year}).then((json) => {
+			const data = JSON.parse(json)
+			if (data.data) {
+
+				for (let i = 0; i < data.data.length; i++) {
+					appendGasoline(data.data[i], i)
+				}
+
+				// if no response in the very first request
+				if (opt.page ===1 && data.data.length < 1) {
+					const targ = document.getElementById(`gasoline-month-section-${opt.month}`)
+					targ.innerHTML = '<br/><h6 class="text-muted">No record for this month</h6>'
+				}
+			}else{
+
 			}
-		}
+
+			resolve(data)
+		})
+	})
+
+}
+
+
+const loadGasolineUnpaid = () => {
+	return new Promise((resolve, reject) => {
+		// creating new instance allows us to create non cancellable request
+		const GasList = new Gasoline()
+		GasList.filter({page: 1, token: window.trs.config.token, filter: 'unpaid'}).then((json) => {
+			const data = JSON.parse(json)
+			if (data.data) {
+
+				for (let i = 0; i < data.data.length; i++) {
+					appendGasolineUnpaid(data.data[i], i)
+				}
+			}
+
+			resolve(data)
+		})
 	})
 }
+
+const loadDataMonthly = (e) => {
+	const month = parseInt(e.target.getAttribute('data-month'))
+	const year = parseInt(e.target.getAttribute('data-year'))
+
+	if (month && year) {
+
+		// show spinner
+		document.querySelector('loading-page').classList.remove('hide')
+
+		loadGasolineAll({
+			page: 1,
+			month: month,
+			year: year,
+		}).then(() => {
+			// hide spinner
+			document.querySelector('loading-page').classList.add('hide')	
+		})
+
+	}
+}
+
+
+
 
 const loadPopupCSS = () => {
 	let css = document.createElement('link')
@@ -205,15 +433,60 @@ const loadPopupCSS = () => {
 const loadRouterInit = () => {
 	appRoute.on({
 		'gasoline/': () => {
-			loadGasoline()
+			// show spinner
+			document.querySelector('loading-page').classList.remove('hide')
+			// set title
+			document.getElementById('title-brand').textContent = ' Gasoline'
+
+			const d = new Date()
+			loadGasolineAll({
+				page: 1,
+				month: d.getMonth() + 1,
+				year: d.getFullYear(),
+			}).then(() => {
+				// show spinner
+				document.querySelector('loading-page').classList.add('hide')
+			})
+
+			// bind click on every month
+			setTimeout(() => {
+				document.querySelectorAll('.month-header').forEach((el,index) => {
+					if (index > 0 ) el.addEventListener('click', loadDataMonthly, { once: true, })
+				})
+
+				//refresh btn
+				document.querySelectorAll('.refresh-month-btn').forEach((el,index) => {
+					el.addEventListener('click', loadDataMonthly)
+				})
+
+			},100)
+
+		},
+		'gasoline/unpaid': () => {
+			changeDisplay(['#gasoline-list-container'], 'none')
+			changeDisplay(['#gasoline-list-container-unpaid'], 'block')
+
+			// show spinner
+			document.querySelector('loading-page').classList.remove('hide')
+
+			loadGasolineUnpaid().then(() => {
+				// hide spinner
+				document.querySelector('loading-page').classList.add('hide')
+			})
 		},
 		'gasoline/:id/info': (params) => {
 			const brPoints = window.trs.default.breakpoints()
-
+			
 			if (brPoints.sm == 'block' || brPoints.md == 'block' || brPoints.xs == 'block') {
 				changeDisplay(['#gasoline-list-section'], 'none')
 				changeDisplay(['#gasoline-registration-section'], 'block')
 			}
+
+			// show spinner
+			document.querySelector('loading-page').classList.remove('hide')
+
+			// set title
+			document.getElementById('title-brand').textContent = ' Details'
 
 
 			Gas.info({id: params.id, token: window.trs.config.token}).then((json) => {
@@ -223,7 +496,7 @@ const loadRouterInit = () => {
 					const d = data.data[0]
 					loadGasolineInfo({
 						id: d.id,
-						tr_number: d.tr_number,
+						tt_number: d.tt_number,
 						name: d.profile_name,
 						date: d.date_created,
 						receipt: d.receipt,
@@ -231,18 +504,47 @@ const loadRouterInit = () => {
 						amount: d.amount,
 						liters: d.liters,
 						encoded: `${d.received_day}/${d.received_month}/${d.received_year}`,
-						driver: d.driver[0].profile_name,
+						day: `${d.received_day}`,
+						month: `${d.received_month}`,
+						year: `${d.received_year}`,
+						driver: d.driver[0] ? d.driver[0].profile_name : '',
+						history: d.history ? d.history : [],
 					})
+
+					document.querySelectorAll('.gasoline').forEach((el, index) => {
+						el.classList.remove('active')
+						if(el.id == `gasoline-${params.id}`) {
+							el.classList.add('active')	
+						}
+					})
+
+					setTimeout(() => {
+						const target = document.getElementById(`gasoline-${params.id}`)
+						if (target)	document.getElementById(`gasoline-${params.id}`).classList.add('active')
+					},300)
+
 				}
+
+				// show spinner
+				document.querySelector('loading-page').classList.add('hide')
 				
 			})
 
+			// no data in the list
 			const listSample = document.querySelectorAll('.gasoline-data-section')
 			if (!listSample[0]) {
-				loadGasoline(params)
+				const d = new Date()
+				loadGasolineAll({
+					page: 1,
+					month: d.getMonth() + 1,
+					year: d.getFullYear(),
+				})
+			}else{
+				document.getElementById(`gasoline-${params.id}`).classList.add('active')
 			}
 
 			loadPopupCSS()
+
 		}
 	}).resolve()
 }

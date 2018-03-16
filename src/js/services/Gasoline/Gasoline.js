@@ -18,6 +18,10 @@ export default class {
 		return this.xhr.request({ url: this.url+`?page=${opt.page}&token=${opt.token}&month=${opt.month}`, method: 'GET' })
 	}
 
+	filter(opt) {
+		return this.xhr.request({ url: this.url+`?page=${opt.page}&token=${opt.token}&filter=${opt.filter}`, method: 'GET' })
+	}
+
 	remove(opt) {
 		return this.xhr.request({ url: this.url, method: 'POST',body:JSON.stringify(opt) })
 	}

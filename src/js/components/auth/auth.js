@@ -12,6 +12,13 @@ const getUsernameValue = (e) => {
 	const val = e.target.value
 	// toggle login button
 	const btn = (val.length > 0) ? loginBtn.removeAttribute('disabled') : loginBtn.setAttribute('disabled', 'disabled')
+	// on enter
+	if(e.keyCode == 13) {
+		if (val.length > 0) {
+			passwordField.classList.remove('hide')
+			passwordField.focus()
+		} 
+	}
 }
 
 const showLoginError = () => {
@@ -45,7 +52,9 @@ const login = (e) => {
 
 				//home
 				setTimeout(() => {
-					window.location.hash = '/home'
+					const loc = `${window.location.origin}${window.location.pathname}#/home`
+					// window.location.hash = '/home'
+					window.location.href = loc
 				},1000)
 
 			}else{
