@@ -3,6 +3,7 @@ import Network from './config/Network.config'
 import PopupES from './utils/PopupEs/PopupEs'
 import { XHR, Loader } from './utils/Loader'
 import Credentials from './services/Auth/Credentials'
+const ScriptLoader = import('../utils/script-loader')
 
 
 const Net = new Network()
@@ -203,9 +204,9 @@ const loadHome = () => {
 	mainSection.innerHTML = `<section style="padding-top:70px;" class="col col-lg-10 col-sm-12 col-xs-12 offset-lg-1">
 		<center class="col-lg-6 col-md-6 col-sm-8 offset-lg-3 offset-md-3 offset-sm-2">
 			<div class="col-lg-12 col-md-12 col-sm-12"><br/><br/>
-				<img src="img/backpack.png" alt="trs welcome" async="" width="200px">
+				<img src="img/bag.png" alt="trs welcome" async="true" width="130px" style="margin-top: 10vh;">
 				<h4><br>Travel Services Management System</h4>
-				<p><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</small></p>
+				<p><small>Monitor your travel using the clean, easy, and fast information system designed for the needs of SEARCA. Never missed your travel ever again!</small></p>
 				<p>
 					<a href="#/gasoline/forms/registration">
 						<button class="btn btn-danger">GETTING STARTED</button>
@@ -252,8 +253,8 @@ const loadGasolineListSection = () => {
 				margin-top:25px;
 			}
 			#gasoline-list-section {
-					background: #f5f5f5;
-				}
+				
+			}
 			.gasoline.active{
 				background:#607d8b0f;
 			}
@@ -278,8 +279,8 @@ const loadGasolineListSection = () => {
 				color:#454545;
 			}
 			.list-menu li a.active {
-				border-bottom:2px solid #F44336;
-				color:#F44336;
+				border-bottom:2px solid #009676;
+				color: #009676;
 			}
 
 
@@ -398,7 +399,7 @@ const loadRouterInit = () => {
    
 
 	appRoute.on({
-		'auth/': () => {
+		'authO365/': () => {
 			changeDisplay(['#main-container'],'none')
 			changeDisplay(['#main-auth-container'],'block')
 
@@ -410,6 +411,27 @@ const loadRouterInit = () => {
 
 				LazyLoader.load(['js/components/auth/auth.js'], { async: true })
 			})
+		},
+		'auth/': async () => {
+			changeDisplay(['#main-container'],'none')
+			changeDisplay(['#main-auth-container'],'block')
+
+			const authSec = await import('../pages/authO365-section')
+			const mainAuthContainer = document.getElementById('main-auth-container')
+			mainAuthContainer.innerHTML = authSec.default
+			// load MSAL
+			ScriptLoader.then(loader => loader.default(mainAuthContainer))
+
+			document.querySelector('initial-page').classList.add('hide')
+
+			/*c)
+			// load login page
+			Request.request({ method: 'GET', url: 'modules/auth/index.html' }).then((res) => {
+				mainAuthContainer.innerHTML = res
+				document.querySelector('initial-page').classList.add('hide')
+				alert('a')
+				//LazyLoader.load(['js/components/auth/auth.js'], { async: true })
+			})*/
 		},
 		'signout/': () => {
 			// clear session
@@ -440,13 +462,13 @@ const loadRouterInit = () => {
 		'gasoline/': () => {
 			// show spinner
 			document.querySelector('loading-page').classList.remove('hide')
-
+			activateMenu('gasoline')
 			loadGasolineSection()
 		},
 		'gasoline/unpaid': () => {
 			// show spinner
 			document.querySelector('loading-page').classList.remove('hide')
-
+			activateMenu('gasoline')
 			loadGasolineSection()
 			setTimeout(() => {
 				activateListMenu('unpaid-gasoline')
@@ -495,6 +517,8 @@ const loadRouterInit = () => {
 			// hide sidebar for small and medium devices
 			hideSidebarOnclick()
 
+			activateMenu('form')
+
 			loadIndexPage().then(e => {
 				const gasolineSection = document.getElementById('gasoline-registration-section')
 				// load gasoline registration page
@@ -525,6 +549,8 @@ const loadRouterInit = () => {
 
 			// hide sidebar for small and medium devices
 			hideSidebarOnclick()
+
+			activateMenu('report')
 
 			loadIndexPage().then(e => {
 				const gasolineSection = document.getElementById('gasoline-reports-section')

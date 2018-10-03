@@ -100,7 +100,7 @@ const loadGasolineInfo = (opt = {}) => {
 				<i class="material-icons md-18">local_gas_station</i>	Gasoline <span class="text-muted">&gt; Info</span>
 		</small>
 	</div>
-	 <div style="background:#fff;padding:15px;border-radius:5px;margin-bottom:100px;" class="offset-lg-1 col-12 col-lg-8">
+	 <div style="background:#fff;padding:15px;border-radius:5px;margin-bottom:100px;margin-top: 50px;" class="offset-lg-1 col-12 col-lg-8">
                     <div style="float: left;width: 60px;height: 60px;border-radius: 50%;background: #ccc;margin-right: 10px;overflow: hidden;">
                         <img src="img/user.png" width="100%">
                     </div>

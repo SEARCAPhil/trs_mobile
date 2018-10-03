@@ -205,7 +205,7 @@ const getVehicle = () => {
 			let html = `<option value=''>Select Vehicle</option>`
 
 			for(let x = 0; x < data.length; x++) {
-				html += `<option value="${data[x].id}">${data[x].manufacturer} <b>${data[x].plate_no}</b></option>`
+				html += `<option value="${data[x].automobile_id}">${data[x].manufacturer} <b>${data[x].plate_no}</b></option>`
 			}
 
 			vehicle.innerHTML = html
