@@ -1,6 +1,6 @@
-import Navigo from 'Navigo'
+import Navigo from 'navigo'
 import Network from '../js/config/Network.config'
-import PopupES from '../js/utils/PopupEs/PopupEs'
+import PopupES from '../js/utils/PopupES/PopupES'
 import { XHR, Loader } from '../js/utils/Loader'
 import Credentials from '../js/services/Auth/Credentials'
 const ScriptLoader = import('../utils/script-loader')

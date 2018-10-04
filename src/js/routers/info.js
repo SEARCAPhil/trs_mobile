@@ -1,4 +1,4 @@
-import Navigo from 'Navigo'
+import Navigo from 'navigo'
 import Network from '../config/Network.config'
 import { XHR, Loader } from '../utils/Loader'
 import Credentials from '../services/Auth/Credentials'
