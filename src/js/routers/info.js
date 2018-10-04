@@ -420,16 +420,6 @@ const loadDataMonthly = (e) => {
 }
 
 
-
-
-const loadPopupCSS = () => {
-	let css = document.createElement('link')
-	css.rel = 'stylesheet'
-	css.type = 'text/css'
-	css.href = 'js/utils/PopupES/popup-es.css'
-	document.body.append(css)
-}
-
 const loadRouterInit = () => {
 	appRoute.on({
 		'gasoline/': () => {
@@ -542,8 +532,6 @@ const loadRouterInit = () => {
 			}else{
 				document.getElementById(`gasoline-${params.id}`).classList.add('active')
 			}
-
-			loadPopupCSS()
 
 		}
 	}).resolve()

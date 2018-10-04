@@ -399,7 +399,7 @@ const loadRouterInit = () => {
    
 
 	appRoute.on({
-		'authO365/': () => {
+		'auth/': () => {
 			changeDisplay(['#main-container'],'none')
 			changeDisplay(['#main-auth-container'],'block')
 
@@ -412,26 +412,9 @@ const loadRouterInit = () => {
 				LazyLoader.load(['js/components/auth/auth.js'], { async: true })
 			})
 		},
-		'auth/': async () => {
-			changeDisplay(['#main-container'],'none')
-			changeDisplay(['#main-auth-container'],'block')
+		'authO365/': () => {
+			window.location.href = 'auth.html'
 
-			const authSec = await import('../pages/authO365-section')
-			const mainAuthContainer = document.getElementById('main-auth-container')
-			mainAuthContainer.innerHTML = authSec.default
-			// load MSAL
-			ScriptLoader.then(loader => loader.default(mainAuthContainer))
-
-			document.querySelector('initial-page').classList.add('hide')
-
-			/*c)
-			// load login page
-			Request.request({ method: 'GET', url: 'modules/auth/index.html' }).then((res) => {
-				mainAuthContainer.innerHTML = res
-				document.querySelector('initial-page').classList.add('hide')
-				alert('a')
-				//LazyLoader.load(['js/components/auth/auth.js'], { async: true })
-			})*/
 		},
 		'signout/': () => {
 			// clear session
@@ -439,7 +422,7 @@ const loadRouterInit = () => {
 			window.sessionStorage.clear()
 			delete window.trs.config.token
 
-			const loc = `${window.location.origin}${window.location.pathname}#/auth`
+			const loc = `${window.location.origin}${window.location.pathname}/auth.html`
 			// window.location.hash = '/home'
 			window.location.href = loc
 

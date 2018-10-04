@@ -24,7 +24,11 @@ module.exports = {
         },{
           from: 'src/img/*.jpg',
           to: 'img/[name].[ext]'
-        },{
+				},
+				{
+					from: 'src/img/*.gif',
+					to: 'img/[name].[ext]'
+				},{
           from: 'src/css/*.css',
           to: 'css/[name].[ext]'
         },{
