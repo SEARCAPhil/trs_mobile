@@ -67,7 +67,7 @@ const saveGasoline = (e) => {
 	let liters=document.querySelector('form[name="gasoline-form"] input#liters')
 	let receipt=document.querySelector('form[name="gasoline-form"] input#receipt')
 	let dateReceived=document.querySelector('form[name="gasoline-form"] input#date_received')
-	let station=document.querySelector('form[name="gasoline-form"] input#station')
+	let station=document.querySelector('form[name="gasoline-form"] select#station')
 	let driver=document.querySelector('form[name="gasoline-form"] select#driver')
 	let vehicle=document.querySelector('form[name="gasoline-form"] select#vehicle')
 
@@ -235,6 +235,26 @@ const getDrivers = () => {
 	})
 }
 
+
+const getGasolineStations = () => {
+	return new Promise((resolve, reject) => {
+		let Dir = new Directory()
+		Dir.getGasolineStations().then(json => {
+			let data = JSON.parse(json)
+
+			let driver = document.querySelector('form[name="gasoline-form"] select#station')
+			let html = `<option value=''>Select Station</option>`
+
+			for(let x = 0; x < data.length; x++) {
+				html += `<option value="${data[x].station}">${data[x].station}</option>`
+			}
+
+			driver.innerHTML = html
+			resolve()
+		})
+	})
+}
+
 // get info for update 
 if (window.trs.default.current.gasoline.id) {
 	getGasolineInfo().then(json => {
@@ -243,7 +263,7 @@ if (window.trs.default.current.gasoline.id) {
 		let liters=document.querySelector('form[name="gasoline-form"] input#liters')
 		let receipt=document.querySelector('form[name="gasoline-form"] input#receipt')
 		let dateReceived=document.querySelector('form[name="gasoline-form"] input#date_received')
-		let station=document.querySelector('form[name="gasoline-form"] input#station')
+		let station=document.querySelector('form[name="gasoline-form"] select#station')
 		let driver=document.querySelector('form[name="gasoline-form"] select#driver')
 		let vehicle=document.querySelector('form[name="gasoline-form"] select#vehicle')
 
@@ -257,7 +277,7 @@ if (window.trs.default.current.gasoline.id) {
 		// get other gasoline reqs.
 		getVehicle().then(() => {
 			if(json.automobile.length > 0) {
-				vehicle.options[0].value = json.automobile[0].id
+				vehicle.options[0].value = json.automobile[0].automobile_id
 				vehicle.options[0].textContent = `${json.automobile[0].manufacturer} ${json.automobile[0].plate_no}`
 			}
 		})
@@ -269,12 +289,21 @@ if (window.trs.default.current.gasoline.id) {
 			}
 		})
 
+		getGasolineStations().then(() => {
+			if(json.station.length > 0) {
+				station.options[0].value = json.station
+				station.options[0].textContent = json.station
+			}
+		})
+
+
 		// hide spinner
 		document.querySelector('loading-page').classList.add('hide')
 	})
 }else{
 	getVehicle()
 	getDrivers()
+	getGasolineStations()
 }
 
 

@@ -12,4 +12,7 @@ export default class {
 	getDrivers() {
 		return this.xhr.request({ url: `${this.conf}automobile/drivers.php`, method: 'GET' })
 	}
+	getGasolineStations() {
+		return this.xhr.request({ url: `${this.conf}automobile/stations.php`, method: 'GET' })
+	}
 }

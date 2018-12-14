@@ -42,6 +42,25 @@ const getDrivers = () => {
 	})
 }
 
+const getGasolineStations = () => {
+	return new Promise((resolve, reject) => {
+		let Dir = new Directory()
+		Dir.getGasolineStations().then(json => {
+			let data = JSON.parse(json)
+
+			let driver = document.querySelector('form[name="gasoline-report-form"] select[name="station"]')
+			let html = `<option value=''>Select Station</option>`
+
+			for(let x = 0; x < data.length; x++) {
+				html += `<option value="${data[x].station}">${data[x].station}</option>`
+			}
+
+			driver.innerHTML = html
+			resolve()
+		})
+	})
+}
+
 
 const printGasolineExpenses = (e) => {
 	e.preventDefault()
@@ -73,7 +92,6 @@ const printGasolineExpenses = (e) => {
 		toField.classList.remove('error')
 		
 	}
-	console.log(vehicleField)
 
 	// open PDF in new Window
 	setTimeout(() => {
@@ -93,3 +111,4 @@ const printGasolineExpenses = (e) => {
 form.addEventListener('submit', printGasolineExpenses)
 getVehicle()
 getDrivers()
+getGasolineStations()
