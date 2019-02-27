@@ -63,7 +63,7 @@ const bindLoadRemoveGasolineModal = () => {
 }
 
 
-const loadGasolineInfo = (opt = {}) => {
+const loadGasolineInfo = (opt = {}) => { 
 	let html = `
 	<!--dialog-->
 	<dialog id="trs-info-modal" data-popup="fade">
@@ -132,11 +132,14 @@ const loadGasolineInfo = (opt = {}) => {
 
                     	<h5>PHP ${opt.amount}</h5>
 	                    <small>
-	                        <p><span class="badge badge-dark">${opt.liters} Liters</span></p>
-	                        <p><b><span class="text-muted"># Trip Ticket Number : </span> ${opt.tt_number}</b></p>
+											<p><span class="badge badge-dark">${opt.liters} Liters</span></p>
+													<p><b><span># ADS : </span> <u>${opt.id}</u></b></p>
+													<p><b><span class="text-muted"># Trip Ticket Number : </span> ${opt.tt_number}</b></p>
+													<p><i class="material-icons text-muted">label</i> <span class="text-muted">Type : </span><span style="text-transform:capitalize;">${opt.type || 'N/A'}</span></p>
 	                        <p><i class="material-icons text-muted">date_range</i> <span class="text-muted">Date : </span> ${opt.date}</p>
 	                        <p><i class="material-icons text-muted">location_on</i> <span class="text-muted">Location : </span>  ${opt.station}</p>
-	                        <p><i class="material-icons text-muted">account_circle</i>  <span class="text-muted">Driver : </span>  ${opt.driver ? opt.driver  : 'N/A' }</p>
+													<p><i class="material-icons text-muted">account_circle</i>  <span class="text-muted">Driver : </span>  ${opt.driver ? opt.driver  : 'N/A' }</p>
+													
 	                        <br/>
 
 	                        <hr/>
@@ -301,6 +304,7 @@ const appendGasoline = (data, index) => {
 
 								<div class="col-12">
 									<small>
+										<b>ADS# :<u>${data.id}</u></b> <br/>
 										<b>Liters :</b> <span class="badge badge-dark">${data.liters || 0}</span><br/>
 										<b>Trip Ticket# : </b>${data.tt_number}<br/>
 										<b> <i class="material-icons md-12">location_on</i> </b>${data.station}
@@ -493,6 +497,7 @@ const loadRouterInit = () => {
 						station: d.station,
 						amount: d.amount,
 						liters: d.liters,
+						type: d.type,
 						encoded: `${d.received_day}/${d.received_month}/${d.received_year}`,
 						day: `${d.received_day}`,
 						month: `${d.received_month}`,

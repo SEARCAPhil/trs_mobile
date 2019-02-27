@@ -70,6 +70,7 @@ const saveGasoline = (e) => {
 	let station=document.querySelector('form[name="gasoline-form"] select#station')
 	let driver=document.querySelector('form[name="gasoline-form"] select#driver')
 	let vehicle=document.querySelector('form[name="gasoline-form"] select#vehicle')
+	let type = document.querySelector('form[name="gasoline-form"] select#gas_type')
 
 	let error = []
 
@@ -162,6 +163,7 @@ const saveGasoline = (e) => {
 			driver_id: driver.value,
 			date_received: dateReceived.value,
 			token: window.trs.config.token,
+			type: type.value,
 			action: window.trs.default.current.gasoline.id ? 'update' : 'create',
 		}
 
@@ -266,12 +268,14 @@ if (window.trs.default.current.gasoline.id) {
 		let station=document.querySelector('form[name="gasoline-form"] select#station')
 		let driver=document.querySelector('form[name="gasoline-form"] select#driver')
 		let vehicle=document.querySelector('form[name="gasoline-form"] select#vehicle')
+		let type = document.querySelector('form[name="gasoline-form"] select#gas_type')
 
 		trNumber.value = json.tt_number
 		amount.value = json.amount
 		liters.value = json.liters
 		receipt.value = json.receipt
 		station.value = json.station
+		type.value = json.type
 		dateReceived.value = `${json.received_year}-${json.received_month < 10 ? '0'+json.received_month : json.received_month }-${json.received_day < 10 ? '0'+json.received_day : json.received_day}`
 		
 		// get other gasoline reqs.

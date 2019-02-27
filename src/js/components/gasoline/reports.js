@@ -12,7 +12,7 @@ const getVehicle = () => {
 			let html = `<option value='all'>Select (ALL)</option>`
 
 			for(let x = 0; x < data.length; x++) {
-				html += `<option value="${data[x].id}">${data[x].manufacturer} <b>${data[x].plate_no}</b></option>`
+				html += `<option value="${data[x].automobile_id}">${data[x].manufacturer} <b>${data[x].plate_no}</b></option>`
 			}
 
 			vehicle.innerHTML = html
@@ -49,7 +49,7 @@ const getGasolineStations = () => {
 			let data = JSON.parse(json)
 
 			let driver = document.querySelector('form[name="gasoline-report-form"] select[name="station"]')
-			let html = `<option value=''>Select Station</option>`
+			let html = `<option value='all'>Select Station</option>`
 
 			for(let x = 0; x < data.length; x++) {
 				html += `<option value="${data[x].station}">${data[x].station}</option>`
