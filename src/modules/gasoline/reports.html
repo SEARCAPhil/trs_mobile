@@ -1,0 +1,99 @@
+<main class="reports-main container">
+    <section class="col-12 offset-lg-1" style="margin-top: 100px;">
+        <h3>Reports <i class="material-icons">equalizer</i></h3>
+        <hr/>
+        <br/>
+
+        <details open>
+            <summary><b>Monthly Gasoline Expenses</b><br/>
+                <small>
+                    Consolidate your gasoline records by date, time, driver, automobile and even gasoline station
+                </small>
+            </summary>
+            <br/><br/>
+            <form name="gasoline-report-form" onsubmit="return false;">
+                    <p><b>Filter</b></p>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-12">
+                            <span class="text-muted"> <i class="material-icons md-18">date_range</i> From </span>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-md-4">
+                            <input type="date" class="form-control" name="from">
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-12">
+                            <span class="text-muted"> <i class="material-icons md-18">date_range</i> To </span>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-md-4">
+                            <input type="date" class="form-control" name="to">
+                        </div>
+
+                    </div>
+
+                    <br/>
+
+                     <div class="row">
+                        <div class="col-lg-2 col-md-2 col-12">
+                            <span class="text-muted"> <i class="material-icons md-18">directions_car</i> Vehicle  </span>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-md-4">
+                           <select class="form-control" name="vehicle">
+                                <option value="all">Select (ALL)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-col-lg-2 col-md-2 col-12">
+                            <span class="text-muted"> <i class="material-icons md-18">account_circle</i> Driver  </span>
+                        </div>
+
+                        <div class="col-12 col-lg-4 col-md-4">
+                           <select class="form-control" name="driver">
+                                <option value="all">Select (ALL)</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <br/>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-12">
+                            <span class="text-muted"> <i class="material-icons md-18">local_gas_station</i> Gas Station </span>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-md-6">
+                           <select class="form-control" name="station">
+                                <option value="all">Select (ALL)</option>
+                                <option>Caltex Los Banos Laguna</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+
+                <div class="col row">
+                   <p class="float-right">
+                        <br/><br/>
+                        
+                        <button class="btn btn-md btn-dark" type="submit"> <div class="file-icon file-icon-xs" data-type="pdf"></div> Print</button>
+                    </p>
+                </div>
+            </form>
+        </details>
+
+
+        <br/>
+        <!-- <details class="text-muted">
+            <summary><b>Anual Gasoline Overlay</b><br/>
+                <small>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                </small>
+            </summary>
+        </details>-->
+
+
+    </section>
+</main>

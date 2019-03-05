@@ -1,0 +1,161 @@
+    <style type="text/css">
+    .hamburger{
+        float: left;
+    }
+    .hamburger .burger{
+       
+        display: inherit;
+        width: 18px;
+        height: 2px;
+        background: rgb(255,184,12);
+        margin: 2px 98% 1px 0px;
+    }
+    .sidebar{
+      position: relative;
+      z-index: 1058;
+      background:rgb(60,60,60);
+      min-width:100px;
+      margin-top: 56px;
+    }
+    .sidebar.reveal{
+      display: block !important
+    }
+    .sidebar.hide{
+      display: none !important
+    }
+    .sidebar-content{
+      width: 100%;
+      height: 100%;
+      left: 0;
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (max-width : 480px) {
+        .sidebar {
+            position: fixed !important;
+            margin-top: 0px;
+        }
+    }
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 320px) {
+       .sidebar {
+            position: fixed !important;
+            margin-top: 0px;
+        }
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 992px) {
+        .sidebar {
+            position: fixed !important;
+            margin-top: 0px;
+        }
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 768px) {
+        .sidebar {
+           position: fixed !important;
+           margin-top: 0px;
+        }
+    }
+
+
+</style>
+<header>
+    <nav class="navbar navbar-dark navbar-top fixed-top">
+        <ul class="nav nav-top-menu">
+            <li class="nav-item navbar-main-menu" id="about-tab">
+                <span class="hamburger">
+                    <span class="burger"></span> 
+                    <span class="burger"></span> 
+                    <span class="burger"></span>
+                </span>
+            </li>
+        </ul>
+        <span class="mr-auto d-block d-lg-none" id="title-brand" href="#" style="color: #ffb80c;padding-left: 5px;"> &nbsp;</span>
+    </nav>
+</header>
+
+<article class="d-flex align-items-stretch">
+    
+
+    <aside class="col-12 col-lg-2 col-md-3 col-xs-12 d-none d-lg-block sidebar"  id="docker-sidebar">    
+         
+         <div class="col navbar-main-menu text-right float-right d-block d-lg-none" style="margin-top: 10px;color:#fff;cursor: pointer;">
+            X
+         </div>
+
+        <div class="content container-fluid sidebar-content" style="height:1080px;">
+           
+            <menu class="col col-md-12">
+                <ul class="list-unstyled main-menu main-menu-list nav  flex-column">
+                    <li data-status="home" class="main-menu-list-item nav-item" data-menu="main-menu-list-item">
+                        <a href="#/home/" class="nav-link active" id="home_menu">
+                            <i class="material-icons md-24" style="width:24px">home</i> Home
+                        </a>
+                    </li>
+
+                     <li data-status="home" class="main-menu-list-item" data-menu="main-menu-list-item" style="position: relative;">
+                         <a href="#/gasoline/" class="nav-link" id="gasoline_menu" >
+                            <i class="material-icons md-24" style="width:24px">local_gas_station</i> Gasoline
+                        </a>
+
+                        <ul class="list-unstyled">
+                            <li><a href="#/gasoline/forms/registration" style="color:#fff;padding-left:35px;" class="nav-link" id="form" >Forms</a></li>
+                            <li><a href="#/gasoline/reports" style="color:#fff;padding-left:35px;" class="nav-link" id="report" >Reports</a></li>
+                        </ul>
+
+                    </li>
+
+                    <!--<li data-status="home" class="main-menu-list-item deactivated" id="automobile_menu" data-menu="main-menu-list-item" onclick="window.location.hash='#/home/'">
+                        <i class="material-icons md-24" style="width:24px">directions_car</i> Automobile
+                    </li>-->
+                    
+                </ul>
+
+            </menu>
+            <menu class="col col-md-12">
+                <ul class="list-unstyled main-menu">
+                    <li data-role="none"><a href="#/signout" style="color:#ffb80c" >Sign-out <i class="material-icons" style="width:24px">keyboard_backspace</i></a></li>
+                </ul>
+            </menu>
+        </div>
+    </aside>
+
+    <main class="col" id="main-section">
+       <article class="/home" id="home-section"></article> 
+       <article class="/automobile"></article> 
+       <article class="/gasoline" id="gasoline-section">
+            <div class="row">
+                <!-- list -->
+                <section class="col-lg-3" id="gasoline-list-section" style="height: 100vh;border-right:1px solid rgba(200,200,200,.7);overflow-x:hidden;overflow-y:auto;"></section>
+                <!-- empty -->
+                <section class="col d-none d-lg-block" id="gasoline-info-section-empty" style="background-color:#fbfbfb;">
+                    <main style="margin-top:15vh;">
+                         <center class="text-muted">
+                            <span><img src="img/pie.gif" width="30%" style="min-width: 300px;" async/>
+                            <h4>Gasoline Expenses</h4>
+                            <p>Record your gasoline expenses anytime, anywhere!</p>
+                        </center>
+                    </main>
+                </section>
+                <!-- info -->
+                <section class="col hide  d-none d-lg-block hide" id="gasoline-info-section" style="height: 100vh;padding-bottom: 20px;overflow-y: auto;"></section>
+                <!--<section class="col-lg-5 offset-lg-1 hide" id="gasoline-section"></section>-->
+                <section class="col-lg-5 offset-lg-3 d-none d-lg-block hide" id="gasoline-registration-section"></section>
+                <section class="col-lg-8 d-none d-lg-block hide" id="gasoline-reports-section"></section>
+
+            </div>
+       </article> 
+    </main>
+
+</article>
+<div class="d-none d-xl-block" id="xl-breakpoint">
+<div class="d-none d-lg-block d-xl-none" id="lg-breakpoint"></div>
+<div class="d-none d-md-block d-lg-none" id="md-breakpoint"></div>
+<div class="d-none d-sm-block d-md-none" id="sm-breakpoint"></div>
+<div class="d-block d-sm-none" id="xs-breakpoint"></div>
+
+
